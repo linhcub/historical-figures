@@ -71,6 +71,14 @@
         .animate-fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
+
+        /* Animation cho Loading Spinner */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-custom {
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 <body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
@@ -148,6 +156,12 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
         <div id="characterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <!-- JS will inject cards here -->
+            
+            <!-- Loading skeleton initial state (optional enhancement) -->
+            <div class="col-span-full text-center py-10 text-gray-500">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-history-gold"></i>
+                <p class="mt-2">Đang tải dữ liệu lịch sử...</p>
+            </div>
         </div>
         
         <!-- Empty State -->
@@ -267,9 +281,11 @@
         const SHEET_NAME = 'figures'; // Đổi nếu tên sheet khác
         let figures = [];
 
-        function fetchFigureById(id) {
+        // MODIFIED: Thêm tham số callback để tắt loading
+        function fetchFigureById(id, onComplete) {
             const query = encodeURIComponent(`SELECT * WHERE A = ${id}`);
             const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
+            
             fetch(url)
                 .then(res => res.text())
                 .then(rep => {
@@ -283,6 +299,10 @@
                         obj.fallbackColor = getFallbackColor(obj.era);
                         openModal(obj);
                     }
+                })
+                .finally(() => {
+                    // Gọi callback khi hoàn tất (dù thành công hay thất bại)
+                    if (onComplete) onComplete();
                 });
         }
 
@@ -335,10 +355,39 @@
                 if(char.era === 'Phong kiến') tagColor = 'bg-amber-100 text-amber-800';
                 if(char.era === 'Dựng nước') tagColor = 'bg-emerald-100 text-emerald-800';
                 const card = document.createElement('div');
-                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer group animate-fade-in`;
-                card.onclick = () => fetchFigureById(char.id);
+                
+                // MODIFIED: Thêm 'relative' để loading overlay định vị chính xác
+                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer group animate-fade-in relative`;
+                
+                // MODIFIED: Xử lý click với Loading
+                card.onclick = function() {
+                    // Tìm overlay trong thẻ này
+                    const loader = this.querySelector('.loading-overlay');
+                    if(loader) {
+                        loader.classList.remove('hidden');
+                        loader.classList.add('flex');
+                    }
 
-                // Xử lý ảnh (fallback nếu lỗi)
+                    // Gọi API, truyền callback để tắt loading
+                    fetchFigureById(char.id, () => {
+                        if(loader) {
+                            loader.classList.add('hidden');
+                            loader.classList.remove('flex');
+                        }
+                    });
+                };
+
+                // MODIFIED: Thêm Loading Overlay HTML vào cuối
+                const loadingHTML = `
+                    <div class="loading-overlay absolute inset-0 bg-white/90 backdrop-blur-[2px] z-20 hidden flex-col items-center justify-center transition-all duration-300">
+                        <svg class="w-10 h-10 text-history-red animate-spin-custom mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="text-history-red font-serif font-bold text-sm animate-pulse">Đang mở cuộn sử...</span>
+                    </div>
+                `;
+
                 // SỬA LỖI: Thêm dấu \ trước dấu ' trong chuỗi class để tránh lỗi cú pháp JS
                 const imgHTML = `
                     <div class="h-56 w-full ${char.fallbackColor} relative overflow-hidden">
@@ -366,7 +415,7 @@
                     </div>
                 `;
 
-                card.innerHTML = imgHTML + contentHTML;
+                card.innerHTML = imgHTML + contentHTML + loadingHTML;
                 grid.appendChild(card);
             });
         }
