@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hào Khí Việt Nam - Nhân Vật Lịch Sử</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'history-red': '#8B1E1E',
+                        'history-gold': '#D4AF37',
+                        'history-gold-light': '#F4E085',
+                        'paper': '#FDFBF7',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B1E1E; 
+        }
+
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-history-gold/30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 bg-history-red rounded-full flex items-center justify-center text-history-gold mr-3 shadow-md">
+                        <i class="fa-solid fa-dragon text-xl"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl text-history-red tracking-wide">Hào Khí Việt</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-history-red transition font-medium">Trang chủ</a>
+                    <a href="#timeline" class="text-gray-600 hover:text-history-red transition font-medium">Niên biểu</a>
+                    <a href="#gallery" class="text-history-red font-bold transition border-b-2 border-history-red">Nhân vật</a>
+                    <a href="#quiz" class="text-gray-600 hover:text-history-red transition font-medium">Đố vui</a>
+                </div>
+
+                <!-- Search & Mobile Button -->
+                <div class="flex items-center space-x-4">
+                    <button class="md:hidden text-gray-600 text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden hero-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-block mb-4 px-4 py-1 rounded-full bg-history-gold/20 text-history-red font-semibold text-sm tracking-wider uppercase border border-history-gold/30">
+                Lịch sử 4000 năm văn hiến
+            </div>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight">
+                Gặp gỡ những <span class="text-history-red underline decoration-history-gold decoration-4 underline-offset-4">Anh Hùng</span><br>
+                Dân Tộc Việt Nam
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+                Khám phá cuộc đời, sự nghiệp và những chiến công lừng lẫy của các bậc tiền nhân đã xây dựng và bảo vệ non sông gấm vóc.
+            </p>
+            
+            <!-- Search Box in Hero -->
+            <div class="max-w-xl mx-auto relative">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm nhân vật (VD: Trần Hưng Đạo)..." 
+                    class="w-full pl-12 pr-4 py-4 rounded-full border-2 border-gray-200 focus:border-history-gold focus:ring-2 focus:ring-history-gold/20 outline-none transition shadow-lg text-lg">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+            </div>
+        </div>
+        
+        <!-- Decorative Gradient -->
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white via-transparent to-transparent -z-10"></div>
+    </header>
+
+    <!-- Filter Tags -->
+    <section class="sticky top-16 z-40 bg-paper/95 backdrop-blur border-b border-gray-200 py-3" id="gallery">
+        <div class="max-w-7xl mx-auto px-4 overflow-x-auto">
+            <div class="flex space-x-2 md:justify-center min-w-max" id="filterContainer">
+                <button onclick="filterData('all')" class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition bg-history-red text-white shadow-md" data-filter="all">Tất cả</button>
+                <button onclick="filterData('Dựng nước')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Dựng nước">Dựng nước & Giữ nước</button>
+                <button onclick="filterData('Bắc thuộc')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Bắc thuộc">Chống Bắc thuộc</button>
+                <button onclick="filterData('Phong kiến')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Phong kiến">Đại Việt (Phong kiến)</button>
+                <button onclick="filterData('Hiện đại')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Hiện đại">Thời kỳ hiện đại</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
+        <div id="characterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- JS will inject cards here -->
+        </div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
+                <i class="fa-solid fa-scroll text-4xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-gray-700">Không tìm thấy nhân vật</h3>
+            <p class="text-gray-500 mt-2">Hãy thử tìm kiếm từ khóa khác.</p>
+        </div>
+    </main>
+
+    <!-- Modal Detail -->
+    <div id="detailModal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full h-full flex items-center justify-center p-4 pointer-events-none">
+            <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row pointer-events-auto transform transition-all scale-100 animate-fade-in">
+                
+                <!-- Modal Image Section -->
+                <div class="w-full md:w-2/5 h-64 md:h-auto relative bg-gray-200 group overflow-hidden">
+                    <img id="modalImg" src="" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent md:hidden flex items-end p-6">
+                        <h2 id="modalNameMobile" class="text-3xl font-serif font-bold text-white text-shadow"></h2>
+                    </div>
+                </div>
+
+                <!-- Modal Text Section -->
+                <div class="w-full md:w-3/5 flex flex-col h-full relative">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark text-gray-600"></i>
+                    </button>
+
+                    <div class="p-8 overflow-y-auto custom-scrollbar">
+                        <div class="mb-2 hidden md:block">
+                            <span id="modalEra" class="inline-block bg-history-gold/20 text-history-red text-xs px-3 py-1 rounded-full uppercase font-bold tracking-wide mb-2"></span>
+                            <h2 id="modalName" class="text-3xl lg:text-4xl font-serif font-bold text-gray-900 mb-1"></h2>
+                            <p id="modalTitle" class="text-gray-500 italic text-lg mb-6 border-b border-gray-100 pb-4"></p>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="flex items-center text-lg font-bold text-history-red mb-2">
+                                    <i class="fa-solid fa-book-open mr-2"></i> Tiể sử & Chiến công
+                                </h3>
+                                <p id="modalDesc" class="text-gray-600 leading-relaxed text-justify"></p>
+                            </div>
+
+                            <div class="bg-history-gold/10 p-5 rounded-xl border border-history-gold/20">
+                                <h3 class="flex items-center text-lg font-bold text-history-red mb-2">
+                                    <i class="fa-solid fa-lightbulb mr-2"></i> Bạn có biết?
+                                </h3>
+                                <p id="modalTrivia" class="text-gray-700 italic text-sm"></p>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-bold text-history-red mb-2">Câu nói nổi tiếng</h3>
+                                <blockquote class="border-l-4 border-history-gold pl-4 py-1 italic text-gray-600 text-lg font-serif">
+                                    "<span id="modalQuote"></span>"
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer of Modal -->
+                    <div class="p-4 border-t border-gray-100 bg-gray-50 text-right">
+                        <button onclick="closeModal()" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-history-gold">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 bg-history-gold rounded-full flex items-center justify-center text-gray-900 mr-2">
+                        <i class="fa-solid fa-dragon"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl">Hào Khí Việt</span>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Trang web phục vụ mục đích giáo dục, giúp học sinh tiếp cận lịch sử một cách trực quan và sinh động nhất. Tự hào lịch sử Việt Nam.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên kết nhanh</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Trang chủ</a></li>
+                    <li><a href="#" class="hover:text-white transition">Thư viện ảnh</a></li>
+                    <li><a href="#" class="hover:text-white transition">Tài liệu tham khảo</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên hệ</h4>
+                <p class="text-gray-400 text-sm mb-2"><i class="fa-solid fa-envelope mr-2"></i> contact@haokhiviethistory.vn</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center border-t border-gray-800 mt-8 pt-8 text-gray-500 text-sm">
+            &copy; 2023 Hào Khí Việt Nam. Made for students.
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Dữ liệu nhân vật ---
+        const figures = [
+            {
+                id: 1,
+                name: "Hùng Vương",
+                title: "Quốc Tổ Việt Nam",
+                era: "Dựng nước",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Den_Hung_Phu_Tho_2.jpg/640px-Den_Hung_Phu_Tho_2.jpg", // Placeholder tượng trưng
+                fallbackColor: "bg-amber-700",
+                desc: "Các vua Hùng là những người có công dựng nước Văn Lang, nhà nước đầu tiên của Việt Nam.",
+                fullDesc: "Hùng Vương là tước hiệu của các thủ lĩnh tối cao của nhà nước Văn Lang của người Lạc Việt. Theo truyền thuyết, Hùng Vương thứ nhất là con trai của Lạc Long Quân, lên ngôi vào năm 2879 TCN, đặt quốc hiệu là Văn Lang, chia nước làm 15 bộ. Các Vua Hùng đã dạy dân trồng lúa nước, thuần hóa súc vật và chống thiên tai.",
+                trivia: "Ngày Giỗ Tổ Hùng Vương (10/3 âm lịch) là một trong những ngày lễ lớn nhất của dân tộc.",
+                quote: "Các Vua Hùng đã có công dựng nước, Bác cháu ta phải cùng nhau giữ lấy nước."
+            },
+            {
+                id: 2,
+                name: "Hai Bà Trưng",
+                title: "Nữ Vương",
+                era: "Bắc thuộc",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Tr%C6%B0ng_Sisters_Painting.jpg/498px-Tr%C6%B0ng_Sisters_Painting.jpg", 
+                fallbackColor: "bg-red-700",
+                desc: "Hai chị em Trưng Trắc và Trưng Nhị là thủ lĩnh cuộc khởi nghĩa chống lại ách đô hộ của nhà Đông Hán.",
+                fullDesc: "Năm 40 sau Công nguyên, phẫn uất trước sự cai trị tàn bạo của Thái thú Tô Định, Hai Bà Trưng đã phất cờ khởi nghĩa tại Mê Linh. Cuộc khởi nghĩa nhanh chóng nhận được sự hưởng ứng của nhân dân khắp nơi, đánh đuổi quân Hán, giành lại độc lập cho đất nước trong 3 năm.",
+                trivia: "Đây là cuộc khởi nghĩa đầu tiên trong lịch sử Việt Nam do phụ nữ lãnh đạo.",
+                quote: "Một xin rửa sạch nước thù / Hai xin đem lại nghiệp xưa họ Hùng."
+            },
+            {
+                id: 3,
+                name: "Ngô Quyền",
+                title: "Tiền Ngô Vương",
+                era: "Bắc thuộc",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Statue_of_Ngo_Quyen.jpg/480px-Statue_of_Ngo_Quyen.jpg",
+                fallbackColor: "bg-emerald-700",
+                desc: "Vị anh hùng dân tộc chấm dứt hơn 1000 năm Bắc thuộc với chiến thắng Bạch Đằng lừng lẫy năm 938.",
+                fullDesc: "Năm 938, lợi dụng lúc thủy triều lên xuống trên sông Bạch Đằng, Ngô Quyền đã cho đóng cọc gỗ vót nhọn bịt sắt xuống lòng sông. Khi quân Nam Hán tiến vào, ông cho thuyền nhẹ ra khiêu chiến rồi giả thua rút chạy. Khi thủy triều rút, hàng cọc nhô lên đâm thủng thuyền địch, quân Nam Hán đại bại.",
+                trivia: "Chiến thắng Bạch Đằng năm 938 được coi là cột mốc chấm dứt thời kỳ Bắc thuộc, mở ra kỷ nguyên độc lập tự chủ lâu dài.",
+                quote: "Hoằng Tháo là đứa trẻ khờ dại, đem quân từ xa đến... ta chế ngự chúng không khó gì."
+            },
+            {
+                id: 4,
+                name: "Lý Thường Kiệt",
+                title: "Thái úy",
+                era: "Phong kiến",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/T%C6%B0%E1%BB%A3ng_%C4%91%C3%A0i_L%C3%BD_Th%C6%B0%E1%BB%9Dng_Ki%C6%B7t.jpg/480px-T%C6%B0%E1%BB%A3ng_%C4%91%C3%A0i_L%C3%BD_Th%C6%B0%E1%BB%9Dng_Ki%C6%B7t.jpg",
+                fallbackColor: "bg-blue-800",
+                desc: "Danh tướng nhà Lý với bản tuyên ngôn độc lập đầu tiên 'Nam quốc sơn hà'.",
+                fullDesc: "Lý Thường Kiệt là một nhà quân sự, nhà chính trị kiệt xuất thời nhà Lý. Ông nổi tiếng với việc chủ động tấn công sang đất Tống để phá vỡ kế hoạch xâm lược của địch (Tiên phát chế nhân) và trận tuyến phòng thủ sông Như Nguyệt.",
+                trivia: "Bài thơ 'Nam quốc sơn hà' được ông đọc trên sông Như Nguyệt để khích lệ tinh thần quân sĩ.",
+                quote: "Nam quốc sơn hà Nam đế cư / Tiệt nhiên định phận tại thiên thư."
+            },
+            {
+                id: 5,
+                name: "Trần Hưng Đạo",
+                title: "Hưng Đạo Đại Vương",
+                era: "Phong kiến",
+                image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/TranHungDao_Statue_HCMC.jpg",
+                fallbackColor: "bg-red-800",
+                desc: "Thiên tài quân sự 3 lần đánh bại quân Nguyên Mông, tác giả 'Hịch tướng sĩ'.",
+                fullDesc: "Trần Quốc Tuấn (Trần Hưng Đạo) là vị chỉ huy tối cao của quân đội nhà Trần trong các cuộc kháng chiến chống quân Nguyên Mông. Ông nổi tiếng với tư tưởng 'khoan thư sức dân' và nghệ thuật quân sự 'lấy ít địch nhiều, lấy yếu chống mạnh'.",
+                trivia: "Ông được UNESCO công nhận là một trong những danh nhân quân sự kiệt xuất nhất thế giới.",
+                quote: "Bệ hạ chém đầu thần rồi hãy hàng."
+            },
+            {
+                id: 6,
+                name: "Quang Trung",
+                title: "Hoàng đế",
+                era: "Phong kiến",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/T%C6%B0%E1%BB%A3ng_Quang_Trung_-_Nguy%E1%BB%85n_Hu%E1%BB%87_%E1%BB%9F_G%C3%B2_%C4%90%E1%BB%91ng_%C4%90a.jpg/480px-T%C6%B0%E1%BB%A3ng_Quang_Trung_-_Nguy%E1%BB%85n_Hu%E1%BB%87_%E1%BB%9F_G%C3%B2_%C4%90%E1%BB%91ng_%C4%90a.jpg",
+                fallbackColor: "bg-yellow-700",
+                desc: "Người anh hùng áo vải cờ đào, lãnh đạo khởi nghĩa Tây Sơn, đại phá quân Thanh.",
+                fullDesc: "Nguyễn Huệ (Quang Trung) là vị hoàng đế thứ hai của nhà Tây Sơn. Ông là một thiên tài quân sự bách chiến bách thắng. Đỉnh cao là chiến dịch thần tốc đại phá 29 vạn quân Thanh vào dịp Tết Kỷ Dậu 1789.",
+                trivia: "Ông hành quân thần tốc từ Phú Xuân ra Thăng Long chỉ trong thời gian ngắn kỷ lục để đánh úp quân địch.",
+                quote: "Đánh cho để dài tóc. Đánh cho để đen răng. Đánh cho nó chích luân bất phản. Đánh cho nó phiến giáp bất hoàn."
+            },
+            {
+                id: 7,
+                name: "Võ Nguyên Giáp",
+                title: "Đại tướng",
+                era: "Hiện đại",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Vo_Nguyen_Giap_1950s.jpg/480px-Vo_Nguyen_Giap_1950s.jpg",
+                fallbackColor: "bg-green-800",
+                desc: "Người anh cả của Quân đội Nhân dân Việt Nam, kiến trúc sư chiến thắng Điện Biên Phủ.",
+                fullDesc: "Đại tướng Võ Nguyên Giáp là tổng tư lệnh đầu tiên của Quân đội Nhân dân Việt Nam. Ông chỉ huy trực tiếp chiến dịch Điện Biên Phủ 1954 'lừng lẫy năm châu, chấn động địa cầu' và đóng vai trò then chốt trong cuộc kháng chiến chống Mỹ.",
+                trivia: "Ông vốn là một giáo viên dạy sử trước khi trở thành một vị tướng lừng danh thế giới.",
+                quote: "Tôi sống ngày nào, cũng là vì đất nước ngày đó."
+            },
+            {
+                id: 8,
+                name: "Hồ Chí Minh",
+                title: "Chủ tịch",
+                era: "Hiện đại",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Ho_Chi_Minh_1946.jpg/480px-Ho_Chi_Minh_1946.jpg",
+                fallbackColor: "bg-red-600",
+                desc: "Vị cha già kính yêu của dân tộc, người sáng lập nước Việt Nam Dân chủ Cộng hòa.",
+                fullDesc: "Chủ tịch Hồ Chí Minh là nhà cách mạng, người sáng lập Đảng Cộng sản Việt Nam và khai sinh ra nước Việt Nam Dân chủ Cộng hòa. Người đã dành cả cuộc đời để tìm đường cứu nước và lãnh đạo nhân dân giành độc lập tự do.",
+                trivia: "Bác Hồ biết và sử dụng thông thạo rất nhiều ngoại ngữ như tiếng Pháp, Anh, Nga, Hoa, Thái...",
+                quote: "Không có gì quý hơn độc lập, tự do."
+            }
+        ];
+
+        // --- Logic hiển thị ---
+        const grid = document.getElementById('characterGrid');
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('detailModal');
+        const emptyState = document.getElementById('emptyState');
+
+        function renderCards(data) {
+            grid.innerHTML = '';
+            if (data.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            data.forEach(char => {
+                // Tạo thẻ màu ngẫu nhiên cho tag
+                let tagColor = 'bg-gray-100 text-gray-600';
+                if(char.era === 'Hiện đại') tagColor = 'bg-red-100 text-red-700';
+                if(char.era === 'Phong kiến') tagColor = 'bg-amber-100 text-amber-800';
+                if(char.era === 'Dựng nước') tagColor = 'bg-emerald-100 text-emerald-800';
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer group animate-fade-in`;
+                card.onclick = () => openModal(char);
+
+                // Xử lý ảnh (fallback nếu lỗi)
+                // SỬA LỖI: Thêm dấu \ trước dấu ' trong chuỗi class để tránh lỗi cú pháp JS
+                const imgHTML = `
+                    <div class="h-56 w-full ${char.fallbackColor} relative overflow-hidden">
+                        <img src="${char.image}" 
+                             alt="${char.name}" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center text-white font-serif text-4xl font-bold opacity-50\\'>${getInitials(char.name)}</div>'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+                        <div class="absolute bottom-3 left-4 text-white">
+                            <p class="text-xs font-light opacity-90 uppercase tracking-wider">${char.title}</p>
+                        </div>
+                    </div>
+                `;
+
+                const contentHTML = `
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-bold px-2 py-1 rounded ${tagColor}">${char.era}</span>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-gray-900 mb-2 group-hover:text-history-red transition">${char.name}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow">${char.desc}</p>
+                        <button class="text-history-red font-semibold text-sm flex items-center mt-auto group-hover:translate-x-1 transition">
+                            Xem chi tiết <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                `;
+
+                card.innerHTML = imgHTML + contentHTML;
+                grid.appendChild(card);
+            });
+        }
+
+        // Helper: Lấy chữ cái đầu
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').substring(0, 2);
+        }
+
+        // --- Logic Lọc & Tìm kiếm ---
+        let currentFilter = 'all';
+
+        function filterData(category) {
+            // Update buttons UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+                    btn.classList.add('bg-history-red', 'text-white', 'shadow-md', 'border-transparent');
+                } else {
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                    btn.classList.remove('bg-history-red', 'text-white', 'shadow-md', 'border-transparent');
+                }
+            });
+
+            currentFilter = category;
+            applyFilters();
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            applyFilters();
+        });
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase();
+            
+            const filtered = figures.filter(item => {
+                const matchesCategory = currentFilter === 'all' || item.era === currentFilter || (currentFilter === 'Bắc thuộc' && item.era === 'Bắc thuộc') || (currentFilter === 'Dựng nước' && item.era === 'Dựng nước');
+                const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                return matchesCategory && matchesSearch;
+            });
+
+            renderCards(filtered);
+        }
+
+        // --- Logic Modal ---
+        function openModal(char) {
+            document.getElementById('modalName').innerText = char.name;
+            document.getElementById('modalNameMobile').innerText = char.name;
+            document.getElementById('modalTitle').innerText = char.title;
+            document.getElementById('modalEra').innerText = char.era;
+            document.getElementById('modalDesc').innerText = char.fullDesc;
+            document.getElementById('modalTrivia').innerText = char.trivia;
+            document.getElementById('modalQuote').innerText = char.quote;
+            
+            const img = document.getElementById('modalImg');
+            img.src = char.image;
+            img.onerror = function() {
+                this.src = `https://ui-avatars.com/api/?name=${char.name}&background=random&size=512`;
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // --- Init ---
+        renderCards(figures);
+
+    </script>
+</body>
+</html>
