@@ -79,7 +79,7 @@
     </nav>
     
     <main class="pt-24 pb-16 min-h-screen">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <a href="index.html#gallery" class="inline-flex items-center text-history-red font-semibold mb-6 transition hover:opacity-80 md:hidden">
                 <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại
             </a>
@@ -143,6 +143,14 @@
                         <div class="md:w-2/3">
                             <p id="charContribution" class="text-gray-700 leading-loose whitespace-pre-wrap"></p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Video section -->
+                <div id="videoSection" class="pt-8 mt-8 section-separator hidden">
+                    <h2 class="text-3xl font-serif font-bold text-gray-800 mb-6 border-b-2 border-history-gold/50 pb-2">Video</h2>
+                    <div id="videoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Videos will be inserted here -->
                     </div>
                 </div>
 
@@ -272,6 +280,51 @@
                 setImageWithFallback('bioImage1', 'bioImage1Container', figure.image_ext_1, initials);
                 setImageWithFallback('bioImage2', 'bioImage2Container', figure.image_ext_2, initials);
                 setImageWithFallback('contribImage', 'contribImageContainer', figure.image_activity, initials);
+
+                // --- Videos Section ---
+                function getYouTubeEmbedUrl(url) {
+                    if (!url) return null;
+                    // Extract YouTube video ID from various URL formats
+                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                    const match = url.match(regExp);
+                    if (match && match[2].length === 11) {
+                        return `https://www.youtube.com/embed/${match[2]}`;
+                    }
+                    return null;
+                }
+
+                const videoContainer = document.getElementById('videoContainer');
+                const videoSection = document.getElementById('videoSection');
+                videoContainer.innerHTML = '';
+                
+                const videos = [figure.video_1, figure.video_2].filter(Boolean);
+                
+                if (videos.length > 0) {
+                    videos.forEach((videoUrl, index) => {
+                        const embedUrl = getYouTubeEmbedUrl(videoUrl);
+                        if (embedUrl) {
+                            const videoWrapper = document.createElement('div');
+                            videoWrapper.className = 'w-full';
+                            videoWrapper.innerHTML = `
+                                <iframe 
+                                    class="w-full rounded-xl shadow-md" 
+                                    height="315" 
+                                    src="${embedUrl}" 
+                                    title="YouTube video player ${index + 1}" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen>
+                                </iframe>
+                            `;
+                            videoContainer.appendChild(videoWrapper);
+                        }
+                    });
+                    
+                    // Show video section if there are videos
+                    if (videoContainer.children.length > 0) {
+                        videoSection.classList.remove('hidden');
+                    }
+                }
 
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('detailContent').classList.remove('hidden');
