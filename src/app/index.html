@@ -200,7 +200,13 @@
 
     <script>
         // --- Lấy dữ liệu từ FastAPI Backend ---
-        const API_BASE_URL = 'http://localhost:8000';
+        // Tự động phát hiện môi trường:
+        // - Production: Dùng /api (cùng domain với frontend qua Nginx reverse proxy)
+        // - Development: Dùng http://localhost:8000
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8000' 
+            : 'http://140.245.117.24:8000';
+        
         let figures = [];
 
         async function fetchFigures(callback) {
