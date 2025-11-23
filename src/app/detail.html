@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Chi Tiết Nhân Vật - Hào Khí Việt</title>
+    <title id="pageTitle">Chi Tiết Nhân Vật - Học Liệu Lịch Sử Địa Phương</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -66,7 +66,7 @@
                     <div class="w-10 h-10 bg-history-red rounded-full flex items-center justify-center text-history-gold mr-3 shadow-md">
                         <i class="fa-solid fa-dragon text-xl"></i>
                     </div>
-                    <span class="font-serif font-bold text-xl text-history-red tracking-wide">Hào Khí Việt</span>
+                    <span class="font-serif font-bold text-xl text-history-red tracking-wide">Học Liệu Lịch Sử Địa Phương</span>
                 </a>
 
                 <div class="hidden md:flex space-x-8">
@@ -170,7 +170,7 @@
                     <div class="w-8 h-8 bg-history-gold rounded-full flex items-center justify-center text-gray-900 mr-2">
                         <i class="fa-solid fa-dragon"></i>
                     </div>
-                    <span class="font-serif font-bold text-xl">Hào Khí Việt</span>
+                    <span class="font-serif font-bold text-xl">Học Liệu Lịch Sử Địa Phương</span>
                 </a>
                 <p class="text-gray-400 text-sm leading-relaxed">
                     Trang web phục vụ mục đích giáo dục, giúp học sinh tiếp cận lịch sử một cách trực quan và sinh động nhất. Tự hào lịch sử Việt Nam.
@@ -194,7 +194,7 @@
             </div>
         </div>
         <div class="text-center border-t border-gray-800 mt-8 pt-8 text-gray-500 text-sm">
-            &copy; 2023 Hào Khí Việt Nam. Made for students.
+            &copy; 2023 Học Liệu Lịch Sử Địa Phương. Made for students.
         </div>
     </footer>
 
@@ -242,7 +242,7 @@
                 const figure = await response.json();
 
                 // --- Điền dữ liệu vào giao diện ---
-                document.getElementById('pageTitle').innerText = (figure.name || 'Chi Tiết') + ' - Hào Khí Việt';
+                document.getElementById('pageTitle').innerText = (figure.name || 'Chi Tiết') + ' - Học Liệu Lịch Sử Địa Phương';
                 document.getElementById('charName').innerText = figure.name || '';
                 document.getElementById('charTitle').innerText = figure.title || '';
                 
