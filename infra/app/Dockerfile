@@ -4,7 +4,7 @@ FROM nginx:alpine
 # COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy static site content (HTML files) to nginx html directory
-COPY ../../src/app/ /usr/share/nginx/html/
+COPY src/app/ /usr/share/nginx/html/
 
 EXPOSE 80
 

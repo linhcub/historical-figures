@@ -2,12 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY ../../requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ../../src/api/ ./src/api/
-COPY ../../alembic/ ./alembic/
-COPY ../../alembic.ini .
+COPY src/api/ ./src/api/
+COPY alembic/ ./alembic/
+COPY alembic.ini .
 
 ENV PYTHONPATH=/app/src
 
