@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/api/ ./src/api/
 COPY alembic/ ./alembic/
 COPY alembic.ini .
+COPY scripts/ ./scripts/
+COPY historical_figures_modern_era.csv .
 
 ENV PYTHONPATH=/app/src
 
