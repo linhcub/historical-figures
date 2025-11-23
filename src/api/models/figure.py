@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
+from sqlalchemy import Column, Text, String
 
 
 class Figure(SQLModel, table=True):
@@ -7,4 +8,12 @@ class Figure(SQLModel, table=True):
     name: str
     birth_year: Optional[int] = None
     death_year: Optional[int] = None
-    description: Optional[str] = None
+    introduction: Optional[str] = Field(default=None, sa_column=Column(Text))
+    biography: Optional[str] = Field(default=None, sa_column=Column(Text))
+    contributions: Optional[str] = Field(default=None, sa_column=Column(Text))
+    image_intro: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))
+    image_activity: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))
+    image_ext_1: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))
+    image_ext_2: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))
+    video_1: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))
+    video_2: Optional[str] = Field(default=None, max_length=256, sa_column=Column(String(256)))

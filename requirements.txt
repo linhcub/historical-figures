@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlmodel[asyncio]
+asyncpg
+sqlalchemy
+alembic
+psycopg2-binary
+gspread
+gspread_asyncio
+google-auth
