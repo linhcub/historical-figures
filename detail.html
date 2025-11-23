@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Chi Tiết Nhân Vật - Hào Khí Việt</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'history-red': '#8B1E1E',
+                        'history-gold': '#D4AF37',
+                        'history-gold-light': '#F4E085',
+                        'paper': '#FDFBF7',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar (Copy từ index.html) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B1E1E; 
+        }
+
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .section-separator {
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-history-gold/30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center cursor-pointer">
+                    <div class="w-10 h-10 bg-history-red rounded-full flex items-center justify-center text-history-gold mr-3 shadow-md">
+                        <i class="fa-solid fa-dragon text-xl"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl text-history-red tracking-wide">Hào Khí Việt</span>
+                </a>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html#gallery" class="text-history-red font-bold transition border-b-2 border-history-red">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại Danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="pt-24 pb-16 min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <a href="index.html#gallery" class="inline-flex items-center text-history-red font-semibold mb-6 transition hover:opacity-80 md:hidden">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại
+            </a>
+            
+            <div id="loading" class="text-center py-20">
+                <i class="fa-solid fa-circle-notch fa-spin text-4xl text-history-gold"></i>
+                <h2 class="mt-4 text-gray-500 font-serif text-2xl">Đang tải thông tin chi tiết...</h2>
+            </div>
+            
+            <div id="errorState" class="hidden text-center py-20">
+                <i class="fa-solid fa-exclamation-triangle text-4xl text-red-600 mb-4"></i>
+                <h2 class="font-serif text-3xl font-bold text-red-700">Lỗi Dữ Liệu</h2>
+                <p id="errorMessage" class="text-gray-600 mt-2">Không tìm thấy nhân vật hoặc ID không hợp lệ.</p>
+                <a href="index.html" class="inline-block mt-6 px-6 py-2 bg-history-red text-white font-semibold rounded-full hover:bg-history-red/90 transition">Trở về trang chủ</a>
+            </div>
+
+            <div id="detailContent" class="hidden bg-white p-6 md:p-10 rounded-xl shadow-lg border border-gray-100">
+
+                <!-- Cover image -->
+                <div id="coverImageContainer" class="w-full h-56 md:h-96 mb-6 rounded-xl overflow-hidden bg-gray-100 shadow-sm">
+                    <img id="coverImage" src="" alt="Ảnh bìa" class="w-full h-full object-cover">
+                </div>
+
+                <p id="charEra" class="text-sm font-bold px-3 py-1 rounded-full inline-block mb-3"></p>
+
+                <h1 id="charName" class="text-4xl md:text-5xl font-serif font-extrabold text-history-red mb-2 leading-tight"></h1>
+                <p id="charTitle" class="text-lg md:text-xl text-gray-600 italic mb-6 border-b pb-4"></p>
+
+                <!-- Intro -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3">Mở đầu</h2>
+                    <p id="charIntro" class="text-gray-700 leading-relaxed text-justify whitespace-pre-wrap"></p>
+                </div>
+
+                <div class="md:flex md:space-x-8 mb-8">
+                    <div class="md:w-1/3 mb-6 md:mb-0">
+                        <div id="charImageContainer" class="w-full aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden shadow-md">
+                            <img id="charImage" src="" alt="Ảnh nhân vật" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-4">Tóm Lược Sự Nghiệp</h3>
+                        <p id="charDesc" class="text-gray-700 text-lg leading-relaxed text-justify"></p>
+
+                        <div id="charQuoteContainer" class="mt-6 p-4 border-l-4 border-history-gold bg-history-gold-light/20 rounded-r-md">
+                            <blockquote id="charQuote" class="italic text-gray-700 font-medium text-base"></blockquote>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiểu sử with two images (if available) -->
+                <div id="bioSection" class="pt-6 section-separator">
+                    <h2 class="text-3xl font-serif font-bold text-gray-800 mb-6 border-b-2 border-history-gold/50 pb-2">Tiểu sử</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div id="bioImage1Container" class="w-full h-56 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+                            <img id="bioImage1" src="" alt="Ảnh tiểu sử 1" class="w-full h-full object-cover">
+                        </div>
+                        <div id="bioImage2Container" class="w-full h-56 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+                            <img id="bioImage2" src="" alt="Ảnh tiểu sử 2" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <p id="charFullDesc" class="text-gray-700 leading-loose text-justify whitespace-pre-wrap"></p>
+                </div>
+
+                <!-- Cống hiến -->
+                <div id="contribSection" class="pt-8 mt-8 section-separator">
+                    <h2 class="text-3xl font-serif font-bold text-gray-800 mb-6 border-b-2 border-history-gold/50 pb-2">Cống hiến</h2>
+
+                    <div class="md:flex md:space-x-6 items-start">
+                        <div class="md:w-1/3 mb-4 md:mb-0">
+                            <div id="contribImageContainer" class="w-full h-44 bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+                                <img id="contribImage" src="" alt="Ảnh cống hiến" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="md:w-2/3">
+                            <p id="charContribution" class="text-gray-700 leading-loose whitespace-pre-wrap"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="charTriviaSection" class="pt-8 mt-8 section-separator">
+                    <h2 class="text-3xl font-serif font-bold text-gray-800 mb-6 border-b-2 border-history-gold/50 pb-2">Thông tin Thú vị</h2>
+                    <p id="charTrivia" class="text-gray-700 leading-loose text-justify whitespace-pre-wrap"></p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-history-gold">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <a href="index.html" class="flex items-center mb-4">
+                    <div class="w-8 h-8 bg-history-gold rounded-full flex items-center justify-center text-gray-900 mr-2">
+                        <i class="fa-solid fa-dragon"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl">Hào Khí Việt</span>
+                </a>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Trang web phục vụ mục đích giáo dục, giúp học sinh tiếp cận lịch sử một cách trực quan và sinh động nhất. Tự hào lịch sử Việt Nam.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên kết nhanh</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Trang chủ</a></li>
+                    <li><a href="index.html#gallery" class="hover:text-white transition">Nhân vật</a></li>
+                    <li><a href="index.html#quiz" class="hover:text-white transition">Đố vui</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên hệ</h4>
+                <p class="text-gray-400 text-sm mb-2"><i class="fa-solid fa-envelope mr-2"></i> contact@haokhiviethistory.vn</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center border-t border-gray-800 mt-8 pt-8 text-gray-500 text-sm">
+            &copy; 2023 Hào Khí Việt Nam. Made for students.
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        const SHEET_ID = '1vctw07Fm8EzgFB5OnpJvf94f-XYyeJE-ZbKOsGzTxJk';
+        const SHEET_NAME = 'figures';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const characterId = params.get('id'); // Lấy ID từ URL: detail.html?id=X
+
+            if (characterId) {
+                fetchDetail(characterId);
+            } else {
+                // Xử lý khi không có ID
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('errorState').classList.remove('hidden');
+                document.getElementById('errorMessage').innerText = 'Lỗi: Không tìm thấy ID nhân vật trong URL.';
+            }
+        });
+
+        function getTagColor(era) {
+            if(era === 'Hiện đại') return 'bg-red-100 text-red-700';
+            if(era === 'Phong kiến') return 'bg-amber-100 text-amber-800';
+            if(era === 'Dựng nước') return 'bg-emerald-100 text-emerald-800';
+            if(era === 'Bắc thuộc') return 'bg-indigo-100 text-indigo-700';
+            return 'bg-gray-100 text-gray-600';
+        }
+
+        function fetchDetail(id) {
+            const query = encodeURIComponent(`SELECT * WHERE A = ${id}`);
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
+
+            // Create a fetch with timeout to avoid infinite loading
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
+
+            fetch(url, { signal: controller.signal })
+                .then(res => res.text())
+                .then(rep => {
+                    clearTimeout(timeout);
+                    const jsonMatch = rep.match(/(?<=google\.visualization\.Query\.setResponse\().*(?=\);)/);
+                    if (!jsonMatch) throw new Error('Dữ liệu không hợp lệ từ Google Sheets.');
+
+                    const json = JSON.parse(jsonMatch[0]);
+
+                    if (json.table.rows.length > 0) {
+                        const row = json.table.rows[0];
+                        const char = {};
+                        json.table.cols.forEach((col, i) => {
+                            char[col.label] = row.c[i] && (typeof row.c[i].v !== 'undefined' ? row.c[i].v : row.c[i].f) || '';
+                        });
+
+                        // --- Điền dữ liệu vào giao diện ---
+                        document.getElementById('pageTitle').innerText = (char.name || 'Chi Tiết') + ' - Hào Khí Việt';
+                        document.getElementById('charName').innerText = char.name || '';
+                        document.getElementById('charTitle').innerText = char.title || '';
+                        document.getElementById('charDesc').innerText = char.desc || '';
+                        document.getElementById('charIntro').innerText = char.intro || '';
+                        document.getElementById('charFullDesc').innerText = char.fullDesc || '';
+                        document.getElementById('charContribution').innerText = char.contribution || '';
+
+                        // Trivia
+                        const triviaSection = document.getElementById('charTriviaSection');
+                        if (char.trivia) {
+                            document.getElementById('charTrivia').innerText = char.trivia;
+                            triviaSection.classList.remove('hidden');
+                        } else {
+                            triviaSection.classList.add('hidden');
+                        }
+
+                        // Quote
+                        const quoteContainer = document.getElementById('charQuoteContainer');
+                        if (char.quote) {
+                            document.getElementById('charQuote').innerText = char.quote;
+                            quoteContainer.classList.remove('hidden');
+                        } else {
+                            quoteContainer.classList.add('hidden');
+                        }
+
+                        // Era tag
+                        const charEra = document.getElementById('charEra');
+                        charEra.innerText = char.era || '';
+                        charEra.className = getTagColor(char.era) + ' text-sm font-bold px-3 py-1 rounded-full inline-block mb-3';
+
+                        // Images with fallbacks: cover, main, bio1, bio2, contrib
+                        const setImageWithFallback = (imgElId, containerId, urlVal, initialsFallback) => {
+                            const imgEl = document.getElementById(imgElId);
+                            const container = document.getElementById(containerId);
+                            if (!urlVal) {
+                                // no url -> show initials or empty content but keep layout
+                                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
+                                return;
+                            }
+
+                            imgEl.src = urlVal;
+                            imgEl.onerror = function() {
+                                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
+                            };
+                        };
+
+                        const initials = (char.name || '').split(' ').map(n => n[0] || '').join('').substring(0,2).toUpperCase() || 'NB';
+
+                        setImageWithFallback('coverImage', 'coverImageContainer', char.coverImage, initials);
+                        setImageWithFallback('charImage', 'charImageContainer', char.image, initials);
+                        setImageWithFallback('bioImage1', 'bioImage1Container', char.bioImage1, initials);
+                        setImageWithFallback('bioImage2', 'bioImage2Container', char.bioImage2, initials);
+                        setImageWithFallback('contribImage', 'contribImageContainer', char.contribImage, initials);
+
+                        document.getElementById('loading').classList.add('hidden');
+                        document.getElementById('detailContent').classList.remove('hidden');
+                    } else {
+                        throw new Error('Không tìm thấy dữ liệu cho ID nhân vật này.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi tải chi tiết:', error);
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('errorState').classList.remove('hidden');
+                    if (error.name === 'AbortError') {
+                        document.getElementById('errorMessage').innerText = 'Yêu cầu quá lâu, vui lòng thử lại sau.';
+                    } else {
+                        document.getElementById('errorMessage').innerText = 'Đã xảy ra lỗi khi tải dữ liệu: ' + error.message;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

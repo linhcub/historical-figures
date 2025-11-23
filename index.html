@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hào Khí Việt Nam - Nhân Vật Lịch Sử</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -58,6 +55,7 @@
         .card-hover {
             transition: all 0.3s ease;
         }
+        /* Áp dụng hiệu ứng hover cho thẻ <a> */
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -72,7 +70,7 @@
             animation: fadeIn 0.5s ease-out forwards;
         }
 
-        /* Animation cho Loading Spinner */
+        /* Animation cho Loading Spinner (đã bị loại bỏ trong logic mới) */
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -83,11 +81,9 @@
 </head>
 <body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-history-gold/30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
                 <div class="flex items-center cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                     <div class="w-10 h-10 bg-history-red rounded-full flex items-center justify-center text-history-gold mr-3 shadow-md">
                         <i class="fa-solid fa-dragon text-xl"></i>
@@ -95,7 +91,6 @@
                     <span class="font-serif font-bold text-xl text-history-red tracking-wide">Hào Khí Việt</span>
                 </div>
 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8">
                     <a href="#" class="text-gray-600 hover:text-history-red transition font-medium">Trang chủ</a>
                     <a href="#timeline" class="text-gray-600 hover:text-history-red transition font-medium">Niên biểu</a>
@@ -103,7 +98,6 @@
                     <a href="#quiz" class="text-gray-600 hover:text-history-red transition font-medium">Đố vui</a>
                 </div>
 
-                <!-- Search & Mobile Button -->
                 <div class="flex items-center space-x-4">
                     <button class="md:hidden text-gray-600 text-2xl">
                         <i class="fa-solid fa-bars"></i>
@@ -113,7 +107,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden hero-pattern">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <div class="inline-block mb-4 px-4 py-1 rounded-full bg-history-gold/20 text-history-red font-semibold text-sm tracking-wider uppercase border border-history-gold/30">
@@ -127,7 +120,6 @@
                 Khám phá cuộc đời, sự nghiệp và những chiến công lừng lẫy của các bậc tiền nhân đã xây dựng và bảo vệ non sông gấm vóc.
             </p>
             
-            <!-- Search Box in Hero -->
             <div class="max-w-xl mx-auto relative">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm nhân vật (VD: Trần Hưng Đạo)..." 
                     class="w-full pl-12 pr-4 py-4 rounded-full border-2 border-gray-200 focus:border-history-gold focus:ring-2 focus:ring-history-gold/20 outline-none transition shadow-lg text-lg">
@@ -135,11 +127,9 @@
             </div>
         </div>
         
-        <!-- Decorative Gradient -->
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white via-transparent to-transparent -z-10"></div>
     </header>
 
-    <!-- Filter Tags -->
     <section class="sticky top-16 z-40 bg-paper/95 backdrop-blur border-b border-gray-200 py-3" id="gallery">
         <div class="max-w-7xl mx-auto px-4 overflow-x-auto">
             <div class="flex space-x-2 md:justify-center min-w-max" id="filterContainer">
@@ -152,19 +142,14 @@
         </div>
     </section>
 
-    <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
         <div id="characterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- JS will inject cards here -->
-            
-            <!-- Loading skeleton initial state (optional enhancement) -->
-            <div class="col-span-full text-center py-10 text-gray-500">
+            <div id="initialLoader" class="col-span-full text-center py-10 text-gray-500">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl text-history-gold"></i>
                 <p class="mt-2">Đang tải dữ liệu lịch sử...</p>
             </div>
         </div>
         
-        <!-- Empty State -->
         <div id="emptyState" class="hidden text-center py-20">
             <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
                 <i class="fa-solid fa-scroll text-4xl text-gray-400"></i>
@@ -178,70 +163,6 @@
       <iframe style="max-width:100%" src="https://wordwall.net/vi/embed/d7087fe403ad4d339f8b73c92b8fd250?themeId=65&amp;templateId=3&amp;fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen=""></iframe>
     </section>
 
-    <!-- Modal Detail -->
-    <div id="detailModal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-        
-        <!-- Modal Content -->
-        <div class="relative w-full h-full flex items-center justify-center p-4 pointer-events-none">
-            <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row pointer-events-auto transform transition-all scale-100 animate-fade-in">
-                
-                <!-- Modal Image Section -->
-                <div class="w-full md:w-2/5 h-64 md:h-auto relative bg-gray-200 group overflow-hidden">
-                    <img id="modalImg" src="" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent md:hidden flex items-end p-6">
-                        <h2 id="modalNameMobile" class="text-3xl font-serif font-bold text-white text-shadow"></h2>
-                    </div>
-                </div>
-
-                <!-- Modal Text Section -->
-                <div class="w-full md:w-3/5 flex flex-col h-full relative">
-                    <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
-                        <i class="fa-solid fa-xmark text-gray-600"></i>
-                    </button>
-
-                    <div class="p-8 overflow-y-auto custom-scrollbar">
-                        <div class="mb-2 hidden md:block">
-                            <span id="modalEra" class="inline-block bg-history-gold/20 text-history-red text-xs px-3 py-1 rounded-full uppercase font-bold tracking-wide mb-2"></span>
-                            <h2 id="modalName" class="text-3xl lg:text-4xl font-serif font-bold text-gray-900 mb-1"></h2>
-                            <p id="modalTitle" class="text-gray-500 italic text-lg mb-6 border-b border-gray-100 pb-4"></p>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="flex items-center text-lg font-bold text-history-red mb-2">
-                                    <i class="fa-solid fa-book-open mr-2"></i> Tiể sử & Chiến công
-                                </h3>
-                                <p id="modalDesc" class="text-gray-600 leading-relaxed text-justify"></p>
-                            </div>
-
-                            <div class="bg-history-gold/10 p-5 rounded-xl border border-history-gold/20">
-                                <h3 class="flex items-center text-lg font-bold text-history-red mb-2">
-                                    <i class="fa-solid fa-lightbulb mr-2"></i> Bạn có biết?
-                                </h3>
-                                <p id="modalTrivia" class="text-gray-700 italic text-sm"></p>
-                            </div>
-                            
-                            <div>
-                                <h3 class="text-lg font-bold text-history-red mb-2">Câu nói nổi tiếng</h3>
-                                <blockquote class="border-l-4 border-history-gold pl-4 py-1 italic text-gray-600 text-lg font-serif">
-                                    "<span id="modalQuote"></span>"
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Footer of Modal -->
-                    <div class="p-4 border-t border-gray-100 bg-gray-50 text-right">
-                        <button onclick="closeModal()" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12 border-t-4 border-history-gold">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -277,7 +198,6 @@
         </div>
     </footer>
 
-    <!-- JavaScript Logic -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         // --- Lấy dữ liệu từ Google Spreadsheet ---
@@ -285,32 +205,14 @@
         const SHEET_NAME = 'figures'; // Đổi nếu tên sheet khác
         let figures = [];
 
-        // MODIFIED: Thêm tham số callback để tắt loading
-        function fetchFigureById(id, onComplete) {
-            const query = encodeURIComponent(`SELECT * WHERE A = ${id}`);
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
-            
-            fetch(url)
-                .then(res => res.text())
-                .then(rep => {
-                    const json = JSON.parse(rep.match(/(?<=google\.visualization\.Query\.setResponse\().*(?=\);)/)[0]);
-                    if(json.table.rows.length > 0) {
-                        const row = json.table.rows[0];
-                        const obj = {};
-                        json.table.cols.forEach((col, i) => {
-                            obj[col.label] = row.c[i] && typeof row.c[i].v !== 'undefined' ? row.c[i].v : '';
-                        });
-                        obj.fallbackColor = getFallbackColor(obj.era);
-                        openModal(obj);
-                    }
-                })
-                .finally(() => {
-                    // Gọi callback khi hoàn tất (dù thành công hay thất bại)
-                    if (onComplete) onComplete();
-                });
-        }
+        // XÓA HÀM: fetchFigureById (vì không dùng modal nữa)
+        // XÓA HÀM: openModal (vì không dùng modal nữa)
+        // XÓA HÀM: closeModal (vì không dùng modal nữa)
 
         function fetchFigures(callback) {
+            const initialLoader = document.getElementById('initialLoader');
+            initialLoader.classList.remove('hidden'); // Hiển thị loading
+            
             const query = encodeURIComponent('SELECT *');
             const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
             fetch(url)
@@ -321,14 +223,17 @@
                         const obj = {};
                         if (row.c && Array.isArray(row.c)) {
                             json.table.cols.forEach((col, i) => {
+                                // Lấy các trường dữ liệu cần thiết
                                 obj[col.label] = row.c[i] && typeof row.c[i].v !== 'undefined' ? row.c[i].v : '';
                             });
                         }
-                        // fallbackColor tự động
                         obj.fallbackColor = getFallbackColor(obj.era);
                         return obj;
                     });
                     callback && callback(figures);
+                })
+                .finally(() => {
+                    initialLoader.classList.add('hidden'); // Ẩn loading khi hoàn tất
                 });
         }
 
@@ -343,7 +248,6 @@
         // --- Logic hiển thị ---
         const grid = document.getElementById('characterGrid');
         const searchInput = document.getElementById('searchInput');
-        const modal = document.getElementById('detailModal');
         const emptyState = document.getElementById('emptyState');
 
         function renderCards(data) {
@@ -358,39 +262,22 @@
                 if(char.era === 'Hiện đại') tagColor = 'bg-red-100 text-red-700';
                 if(char.era === 'Phong kiến') tagColor = 'bg-amber-100 text-amber-800';
                 if(char.era === 'Dựng nước') tagColor = 'bg-emerald-100 text-emerald-800';
-                const card = document.createElement('div');
                 
-                // MODIFIED: Thêm 'relative' để loading overlay định vị chính xác
-                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer group animate-fade-in relative`;
+                // THAY ĐỔI: Sử dụng thẻ <a> thay vì <div> để tạo liên kết
+                const card = document.createElement('a');
                 
-                // MODIFIED: Xử lý click với Loading
-                card.onclick = function() {
-                    // Tìm overlay trong thẻ này
-                    const loader = this.querySelector('.loading-overlay');
-                    if(loader) {
-                        loader.classList.remove('hidden');
-                        loader.classList.add('flex');
-                    }
+                // THAY ĐỔI: Thiết lập href trỏ đến trang detail.html với ID nhân vật
+                card.href = `detail.html?id=${char.id}`; 
+                
+                // THAY ĐỔI: Bỏ cursor-pointer vì thẻ <a> đã ngầm hiểu là có thể click
+                card.className = `bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col h-full group animate-fade-in relative`; 
+                
+                // XÓA: Bỏ toàn bộ logic onclick và loading overlay (không cần thiết)
 
-                    // Gọi API, truyền callback để tắt loading
-                    fetchFigureById(char.id, () => {
-                        if(loader) {
-                            loader.classList.add('hidden');
-                            loader.classList.remove('flex');
-                        }
-                    });
-                };
-
-                // MODIFIED: Thêm Loading Overlay HTML vào cuối
-                const loadingHTML = `
-                    <div class="loading-overlay absolute inset-0 bg-white/90 backdrop-blur-[2px] z-20 hidden flex-col items-center justify-center transition-all duration-300">
-                        <svg class="w-10 h-10 text-history-red animate-spin-custom mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span class="text-history-red font-serif font-bold text-sm animate-pulse">Đang mở cuộn sử...</span>
-                    </div>
-                `;
+                // Helper: Lấy chữ cái đầu
+                function getInitials(name) {
+                    return name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                }
 
                 // SỬA LỖI: Thêm dấu \ trước dấu ' trong chuỗi class để tránh lỗi cú pháp JS
                 const imgHTML = `
@@ -419,14 +306,9 @@
                     </div>
                 `;
 
-                card.innerHTML = imgHTML + contentHTML + loadingHTML;
+                card.innerHTML = imgHTML + contentHTML;
                 grid.appendChild(card);
             });
-        }
-
-        // Helper: Lấy chữ cái đầu
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').substring(0, 2);
         }
 
         // --- Logic Lọc & Tìm kiếm ---
@@ -464,36 +346,6 @@
             renderCards(filtered);
         }
 
-        // --- Logic Modal ---
-        function openModal(char) {
-            document.getElementById('modalName').innerText = char.name;
-            document.getElementById('modalNameMobile').innerText = char.name;
-            document.getElementById('modalTitle').innerText = char.title;
-            document.getElementById('modalEra').innerText = char.era;
-            document.getElementById('modalDesc').innerText = char.fullDesc;
-            document.getElementById('modalTrivia').innerText = char.trivia;
-            document.getElementById('modalQuote').innerText = char.quote;
-            
-            const img = document.getElementById('modalImg');
-            img.src = char.image;
-            img.onerror = function() {
-                this.src = `https://ui-avatars.com/api/?name=${char.name}&background=random&size=512`;
-            }
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
-        }
-
-        function closeModal() {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-
         // --- Init ---
         fetchFigures(() => {
             applyFilters();
@@ -505,7 +357,8 @@
             a.classList.remove('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
             a.classList.add('text-gray-600', 'transition');
             const hash = window.location.hash;
-            if((hash === '#gallery' && a.getAttribute('href') === '#gallery') || (hash === '#quiz' && a.getAttribute('href') === '#quiz')) {
+            // Kiểm tra hash hoặc mặc định là #gallery
+            if((hash === '#gallery' && a.getAttribute('href') === '#gallery') || (hash === '#quiz' && a.getAttribute('href') === '#quiz') || (!hash && a.getAttribute('href') === '#gallery')) {
               a.classList.add('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
               a.classList.remove('text-gray-600');
             }
@@ -513,6 +366,11 @@
         }
         window.addEventListener('hashchange', updateMenuActive);
         document.addEventListener('DOMContentLoaded', updateMenuActive);
+        
+        // Gỡ bỏ sự kiện đóng modal (không cần thiết)
+        // document.addEventListener('keydown', (e) => {
+        //     if (e.key === 'Escape') closeModal();
+        // });
     </script>
 </body>
 </html>
