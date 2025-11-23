@@ -114,23 +114,6 @@
                     <p id="charIntro" class="text-gray-700 leading-relaxed text-justify whitespace-pre-wrap"></p>
                 </div>
 
-                <div class="md:flex md:space-x-8 mb-8">
-                    <div class="md:w-1/3 mb-6 md:mb-0">
-                        <div id="charImageContainer" class="w-full aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden shadow-md">
-                            <img id="charImage" src="" alt="Ảnh nhân vật" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    
-                    <div class="md:w-2/3">
-                        <h3 class="text-2xl font-serif font-bold text-gray-800 mb-4">Tóm Lược Sự Nghiệp</h3>
-                        <p id="charDesc" class="text-gray-700 text-lg leading-relaxed text-justify"></p>
-
-                        <div id="charQuoteContainer" class="mt-6 p-4 border-l-4 border-history-gold bg-history-gold-light/20 rounded-r-md">
-                            <blockquote id="charQuote" class="italic text-gray-700 font-medium text-base"></blockquote>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Tiểu sử with two images (if available) -->
                 <div id="bioSection" class="pt-6 section-separator">
                     <h2 class="text-3xl font-serif font-bold text-gray-800 mb-6 border-b-2 border-history-gold/50 pb-2">Tiểu sử</h2>
@@ -207,10 +190,8 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
-        const SHEET_ID = '1vctw07Fm8EzgFB5OnpJvf94f-XYyeJE-ZbKOsGzTxJk';
-        const SHEET_NAME = 'figures';
+        const API_BASE_URL = 'http://localhost:8000';
 
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
@@ -234,102 +215,73 @@
             return 'bg-gray-100 text-gray-600';
         }
 
-        function fetchDetail(id) {
-            const query = encodeURIComponent(`SELECT * WHERE A = ${id}`);
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
-
-            // Create a fetch with timeout to avoid infinite loading
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
-
-            fetch(url, { signal: controller.signal })
-                .then(res => res.text())
-                .then(rep => {
-                    clearTimeout(timeout);
-                    const jsonMatch = rep.match(/(?<=google\.visualization\.Query\.setResponse\().*(?=\);)/);
-                    if (!jsonMatch) throw new Error('Dữ liệu không hợp lệ từ Google Sheets.');
-
-                    const json = JSON.parse(jsonMatch[0]);
-
-                    if (json.table.rows.length > 0) {
-                        const row = json.table.rows[0];
-                        const char = {};
-                        json.table.cols.forEach((col, i) => {
-                            char[col.label] = row.c[i] && (typeof row.c[i].v !== 'undefined' ? row.c[i].v : row.c[i].f) || '';
-                        });
-
-                        // --- Điền dữ liệu vào giao diện ---
-                        document.getElementById('pageTitle').innerText = (char.name || 'Chi Tiết') + ' - Hào Khí Việt';
-                        document.getElementById('charName').innerText = char.name || '';
-                        document.getElementById('charTitle').innerText = char.title || '';
-                        document.getElementById('charDesc').innerText = char.desc || '';
-                        document.getElementById('charIntro').innerText = char.intro || '';
-                        document.getElementById('charFullDesc').innerText = char.fullDesc || '';
-                        document.getElementById('charContribution').innerText = char.contribution || '';
-
-                        // Trivia
-                        const triviaSection = document.getElementById('charTriviaSection');
-                        if (char.trivia) {
-                            document.getElementById('charTrivia').innerText = char.trivia;
-                            triviaSection.classList.remove('hidden');
-                        } else {
-                            triviaSection.classList.add('hidden');
-                        }
-
-                        // Quote
-                        const quoteContainer = document.getElementById('charQuoteContainer');
-                        if (char.quote) {
-                            document.getElementById('charQuote').innerText = char.quote;
-                            quoteContainer.classList.remove('hidden');
-                        } else {
-                            quoteContainer.classList.add('hidden');
-                        }
-
-                        // Era tag
-                        const charEra = document.getElementById('charEra');
-                        charEra.innerText = char.era || '';
-                        charEra.className = getTagColor(char.era) + ' text-sm font-bold px-3 py-1 rounded-full inline-block mb-3';
-
-                        // Images with fallbacks: cover, main, bio1, bio2, contrib
-                        const setImageWithFallback = (imgElId, containerId, urlVal, initialsFallback) => {
-                            const imgEl = document.getElementById(imgElId);
-                            const container = document.getElementById(containerId);
-                            if (!urlVal) {
-                                // no url -> show initials or empty content but keep layout
-                                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
-                                return;
-                            }
-
-                            imgEl.src = urlVal;
-                            imgEl.onerror = function() {
-                                container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
-                            };
-                        };
-
-                        const initials = (char.name || '').split(' ').map(n => n[0] || '').join('').substring(0,2).toUpperCase() || 'NB';
-
-                        setImageWithFallback('coverImage', 'coverImageContainer', char.coverImage, initials);
-                        setImageWithFallback('charImage', 'charImageContainer', char.image, initials);
-                        setImageWithFallback('bioImage1', 'bioImage1Container', char.bioImage1, initials);
-                        setImageWithFallback('bioImage2', 'bioImage2Container', char.bioImage2, initials);
-                        setImageWithFallback('contribImage', 'contribImageContainer', char.contribImage, initials);
-
-                        document.getElementById('loading').classList.add('hidden');
-                        document.getElementById('detailContent').classList.remove('hidden');
-                    } else {
+        async function fetchDetail(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/figures/${id}`);
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
                         throw new Error('Không tìm thấy dữ liệu cho ID nhân vật này.');
                     }
-                })
-                .catch(error => {
-                    console.error('Lỗi tải chi tiết:', error);
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('errorState').classList.remove('hidden');
-                    if (error.name === 'AbortError') {
-                        document.getElementById('errorMessage').innerText = 'Yêu cầu quá lâu, vui lòng thử lại sau.';
-                    } else {
-                        document.getElementById('errorMessage').innerText = 'Đã xảy ra lỗi khi tải dữ liệu: ' + error.message;
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const figure = await response.json();
+
+                // --- Điền dữ liệu vào giao diện ---
+                document.getElementById('pageTitle').innerText = (figure.name || 'Chi Tiết') + ' - Hào Khí Việt';
+                document.getElementById('charName').innerText = figure.name || '';
+                document.getElementById('charTitle').innerText = figure.title || '';
+                
+                // Map API fields to display elements
+                document.getElementById('charIntro').innerText = figure.introduction || '';
+                document.getElementById('charFullDesc').innerText = figure.biography || '';
+                document.getElementById('charContribution').innerText = figure.contributions || '';
+
+                // Trivia section - we don't have trivia in the new model, hide it
+                const triviaSection = document.getElementById('charTriviaSection');
+                triviaSection.classList.add('hidden');
+
+                // Era tag
+                const charEra = document.getElementById('charEra');
+                if (figure.era) {
+                    charEra.innerText = figure.era;
+                    charEra.className = getTagColor(figure.era) + ' text-sm font-bold px-3 py-1 rounded-full inline-block mb-3';
+                } else {
+                    charEra.classList.add('hidden');
+                }
+
+                // Images with fallbacks
+                const setImageWithFallback = (imgElId, containerId, urlVal, initialsFallback) => {
+                    const imgEl = document.getElementById(imgElId);
+                    const container = document.getElementById(containerId);
+                    if (!urlVal) {
+                        container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
+                        return;
                     }
-                });
+
+                    imgEl.src = urlVal;
+                    imgEl.onerror = function() {
+                        container.innerHTML = `<div class="w-full h-full flex items-center justify-center text-white font-serif text-3xl md:text-5xl font-bold bg-gray-300">${initialsFallback}</div>`;
+                    };
+                };
+
+                const initials = (figure.name || '').split(' ').map(n => n[0] || '').join('').substring(0,2).toUpperCase() || 'NB';
+
+                setImageWithFallback('coverImage', 'coverImageContainer', figure.image_intro, initials);
+                setImageWithFallback('bioImage1', 'bioImage1Container', figure.image_ext_1, initials);
+                setImageWithFallback('bioImage2', 'bioImage2Container', figure.image_ext_2, initials);
+                setImageWithFallback('contribImage', 'contribImageContainer', figure.image_activity, initials);
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('detailContent').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Lỗi tải chi tiết:', error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('errorState').classList.remove('hidden');
+                document.getElementById('errorMessage').innerText = 'Đã xảy ra lỗi khi tải dữ liệu: ' + error.message;
+            }
         }
     </script>
 </body>

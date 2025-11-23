@@ -40,23 +40,24 @@ BATCH_SIZE = 100
 def coerce_row(row: Dict[str, str]) -> Dict[str, Any]:
     """Convert CSV row strings into the types expected by the model."""
     out: Dict[str, Any] = {}
-    for k, v in row.items():
-        if k not in ALLOWED_FIELDS:
+    for field_name, value in row.items():
+        # Only accept fields that are in ALLOWED_FIELDS
+        if field_name not in ALLOWED_FIELDS:
             continue
-        if v is None:
+        if value is None:
             continue
-        s = v.strip()
+        s = value.strip()
         if s == "":
-            out[k] = None
+            out[field_name] = None
             continue
-        if k in ('birth_year', 'death_year', 'id'):
+        if field_name in ('birth_year', 'death_year', 'id'):
             try:
-                out[k] = int(s)
+                out[field_name] = int(s)
             except ValueError:
-                out[k] = None
+                out[field_name] = None
         else:
-            # limit lengths for URL/string fields if empty
-            out[k] = s
+            # All other fields are strings
+            out[field_name] = s
     return out
 
 

@@ -11,6 +11,8 @@ router = APIRouter()
 class FigureSummary(SQLModel):
     id: int
     name: str
+    title: Optional[str] = None
+    era: Optional[str] = None
     birth_year: Optional[int] = None
     death_year: Optional[int] = None
     introduction: Optional[str] = None
@@ -23,6 +25,8 @@ async def get_figures(session: AsyncSession = Depends(get_async_session)):
         statement = select(
             Figure.id,
             Figure.name,
+            Figure.title,
+            Figure.era,
             Figure.birth_year,
             Figure.death_year,
             Figure.introduction,
@@ -35,10 +39,12 @@ async def get_figures(session: AsyncSession = Depends(get_async_session)):
             FigureSummary(
                 id=r[0],
                 name=r[1],
-                birth_year=r[2],
-                death_year=r[3],
-                introduction=r[4],
-                image_intro=r[5],
+                title=r[2],
+                era=r[3],
+                birth_year=r[4],
+                death_year=r[5],
+                introduction=r[6],
+                image_intro=r[7],
             )
             for r in rows
         ]

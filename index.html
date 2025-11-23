@@ -198,43 +198,48 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
-        // --- Lấy dữ liệu từ Google Spreadsheet ---
-        const SHEET_ID = '1vctw07Fm8EzgFB5OnpJvf94f-XYyeJE-ZbKOsGzTxJk';
-        const SHEET_NAME = 'figures'; // Đổi nếu tên sheet khác
+        // --- Lấy dữ liệu từ FastAPI Backend ---
+        const API_BASE_URL = 'http://localhost:8000';
         let figures = [];
 
-        // XÓA HÀM: fetchFigureById (vì không dùng modal nữa)
-        // XÓA HÀM: openModal (vì không dùng modal nữa)
-        // XÓA HÀM: closeModal (vì không dùng modal nữa)
-
-        function fetchFigures(callback) {
+        async function fetchFigures(callback) {
             const initialLoader = document.getElementById('initialLoader');
             initialLoader.classList.remove('hidden'); // Hiển thị loading
             
-            const query = encodeURIComponent('SELECT *');
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SHEET_NAME}&tq=${query}`;
-            fetch(url)
-                .then(res => res.text())
-                .then(rep => {
-                    const json = JSON.parse(rep.match(/(?<=google\.visualization\.Query\.setResponse\().*(?=\);)/)[0]);
-                    figures = json.table.rows.map(row => {
-                        const obj = {};
-                        if (row.c && Array.isArray(row.c)) {
-                            json.table.cols.forEach((col, i) => {
-                                // Lấy các trường dữ liệu cần thiết
-                                obj[col.label] = row.c[i] && typeof row.c[i].v !== 'undefined' ? row.c[i].v : '';
-                            });
-                        }
-                        obj.fallbackColor = getFallbackColor(obj.era);
-                        return obj;
-                    });
-                    callback && callback(figures);
-                })
-                .finally(() => {
-                    initialLoader.classList.add('hidden'); // Ẩn loading khi hoàn tất
-                });
+            try {
+                const response = await fetch(`${API_BASE_URL}/figures`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                // Map API fields to frontend fields
+                figures = data.map(figure => ({
+                    id: figure.id,
+                    name: figure.name,
+                    title: figure.title || '',
+                    era: figure.era || '',
+                    desc: figure.introduction || '',
+                    image: figure.image_intro || '',
+                    birth_year: figure.birth_year,
+                    death_year: figure.death_year,
+                    fallbackColor: getFallbackColor(figure.era)
+                }));
+                
+                callback && callback(figures);
+            } catch (error) {
+                console.error('Error fetching figures:', error);
+                initialLoader.innerHTML = `
+                    <div class="text-red-500">
+                        <i class="fa-solid fa-exclamation-triangle text-3xl"></i>
+                        <p class="mt-2">Không thể tải dữ liệu. Vui lòng kiểm tra kết nối API.</p>
+                        <p class="text-sm mt-1">Lỗi: ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                initialLoader.classList.add('hidden'); // Ẩn loading khi hoàn tất
+            }
         }
 
         function getFallbackColor(era) {
