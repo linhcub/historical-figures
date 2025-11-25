@@ -92,9 +92,10 @@
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#gallery" class="text-gray-600 hover:text-history-red transition font-medium">Nhân vật</a>
-                    <a href="#overview" class="text-gray-600 hover:text-history-red transition font-medium">Khái Quát</a>
-                    <a href="#quiz" class="text-gray-600 hover:text-history-red transition font-medium">Đố vui</a>
+                    <a href="#overview" class="text-gray-600 hover:text-history-red transition font-medium">Chương I: Khái Quát</a>
+                    <a href="#gallery" data-chapter="2" onclick="setFilterAndScroll('Phong kiến');" class="text-gray-600 hover:text-history-red transition font-medium">Chương II: Phong Kiến</a>
+                    <a href="#gallery" data-chapter="3" onclick="setFilterAndScroll('Hiện Đại');" class="text-gray-600 hover:text-history-red transition font-medium">Chương III: Hiện Đại</a>
+                    <a href="#quiz" class="text-gray-600 hover:text-history-red transition font-medium">Chương IV: Luyện Tập Thêm</a>
                 </div>
 
                 <div class="flex items-center space-x-4">
@@ -118,44 +119,11 @@
             </h1>
             <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10">Khám phá những nhân vật lịch sử kiệt xuất sinh ra trên mảnh đất Quảng Trị, từ thời phong kiến đến các giai đoạn chống Pháp, chống Mỹ. Qua từng trang, bạn sẽ theo dòng chảy lịch sử theo thời gian, tìm hiểu về quê quán, tiểu sử và những đóng góp to lớn của những con người đã làm nên danh tiếng và truyền thống kiên cường của Quảng Trị. Khám phá lịch sử Quảng Trị – hiểu rõ quá khứ, trân trọng hiện tại và cảm nhận giá trị di sản vô giá của mảnh đất này!
             </p>
-            
-            <div class="max-w-xl mx-auto relative">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm nhân vật (VD: Lê Duẩn)..." 
-                    class="w-full pl-12 pr-4 py-4 rounded-full border-2 border-gray-200 focus:border-history-gold focus:ring-2 focus:ring-history-gold/20 outline-none transition shadow-lg text-lg">
-                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
-            </div>
         </div>
         
         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white via-transparent to-transparent -z-10"></div>
     </header>
 
-    <section class="sticky top-16 z-40 bg-paper/95 backdrop-blur border-b border-gray-200 py-3" id="gallery">
-        <div class="max-w-7xl mx-auto px-4 overflow-x-auto">
-            <div class="flex space-x-2 md:justify-center min-w-max" id="filterContainer">
-                <button onclick="filterData('all')" class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition bg-history-red text-white shadow-md" data-filter="all">Tất cả</button>
-                <button onclick="filterData('Phong kiến')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Phong kiến">Thời kỳ Phong kiến</button>
-                <button onclick="filterData('Hiện Đại')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Hiện Đại">Thời kỳ Hiện Đại</button>
-            </div>
-        </div>
-    </section>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
-        <div id="characterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <div id="initialLoader" class="col-span-full text-center py-10 text-gray-500">
-                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-history-gold"></i>
-                <p class="mt-2">Đang tải dữ liệu lịch sử...</p>
-            </div>
-        </div>
-        
-        <div id="emptyState" class="hidden text-center py-20">
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
-                <i class="fa-solid fa-scroll text-4xl text-gray-400"></i>
-            </div>
-            <h3 class="text-xl font-serif font-bold text-gray-700">Không tìm thấy nhân vật</h3>
-            <p class="text-gray-500 mt-2">Hãy thử tìm kiếm từ khóa khác.</p>
-        </div>
-    </main>
-    
     <section id="overview" class="bg-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
@@ -210,6 +178,39 @@
             </div>
         </div>
     </section>
+
+    <section class="sticky top-16 z-40 bg-paper/95 backdrop-blur border-b border-gray-200 py-3" id="gallery">
+        <div class="max-w-7xl mx-auto px-4 overflow-x-auto">
+            <div class="flex space-x-2 md:justify-center min-w-max" id="filterContainer">
+                <button onclick="filterData('all')" class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition bg-history-red text-white shadow-md" data-filter="all">Tất cả</button>
+                <button onclick="filterData('Phong kiến')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Phong kiến">Thời kỳ Phong kiến</button>
+                <button onclick="filterData('Hiện Đại')" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold bg-white text-gray-600 border border-gray-200 hover:border-history-gold hover:text-history-gold transition" data-filter="Hiện Đại">Thời kỳ Hiện Đại</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
+        <div class="max-w-2xl mx-auto mb-12 relative">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm nhân vật (VD: Lê Duẩn)..." 
+                class="w-full pl-12 pr-4 py-4 rounded-full border-2 border-gray-200 focus:border-history-gold focus:ring-2 focus:ring-history-gold/20 outline-none transition shadow-lg text-lg">
+            <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+        </div>
+
+        <div id="characterGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div id="initialLoader" class="col-span-full text-center py-10 text-gray-500">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-history-gold"></i>
+                <p class="mt-2">Đang tải dữ liệu lịch sử...</p>
+            </div>
+        </div>
+        
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
+                <i class="fa-solid fa-scroll text-4xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-gray-700">Không tìm thấy nhân vật</h3>
+            <p class="text-gray-500 mt-2">Hãy thử tìm kiếm từ khóa khác.</p>
+        </div>
+    </main>
     
     <section id="quiz" class="bg-paper py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -420,6 +421,18 @@
 
         // --- Logic Lọc & Tìm kiếm ---
         let currentFilter = 'all';
+        let activeChapter = null; // Track which chapter is active
+
+        function setFilterAndScroll(category) {
+            // Set the filter
+            filterData(category);
+            // Mark that a chapter filter was applied
+            activeChapter = category;
+            // Scroll to gallery section after a small delay to ensure filtering is applied
+            setTimeout(() => {
+                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
 
         function filterData(category) {
             // Update buttons UI
@@ -463,16 +476,34 @@
           document.querySelectorAll('nav .md\\:flex a').forEach(a => {
             a.classList.remove('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
             a.classList.add('text-gray-600', 'transition');
-            const hash = window.location.hash;
-            // Kiểm tra hash hoặc mặc định là #gallery
-            if((hash === '#gallery' && a.getAttribute('href') === '#gallery') || 
-               (hash === '#overview' && a.getAttribute('href') === '#overview') ||
-               (hash === '#quiz' && a.getAttribute('href') === '#quiz') || 
-               (!hash && a.getAttribute('href') === '#gallery')) {
-              a.classList.add('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
-              a.classList.remove('text-gray-600');
-            }
           });
+          
+          const hash = window.location.hash || '#overview';
+          
+          // Handle chapter-specific highlighting for gallery
+          if(hash === '#gallery' && activeChapter) {
+            // Find and highlight the correct chapter link
+            document.querySelectorAll('nav .md\\:flex a[data-chapter]').forEach(a => {
+              const chapter = a.getAttribute('data-chapter');
+              if((chapter === '2' && activeChapter === 'Phong kiến') || 
+                 (chapter === '3' && activeChapter === 'Hiện Đại')) {
+                a.classList.add('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
+                a.classList.remove('text-gray-600');
+              }
+            });
+          } else if(hash === '#gallery' && !activeChapter) {
+            // If no activeChapter is set but hash is #gallery, don't highlight any chapter
+            // This handles the case where we navigate directly to #gallery without a filter
+          } else {
+            // Normal hash-based highlighting for non-chapter links
+            document.querySelectorAll('nav .md\\:flex a').forEach(a => {
+              const href = a.getAttribute('href');
+              if(href === hash) {
+                a.classList.add('text-history-red', 'font-bold', 'border-b-2', 'border-history-red', 'transition');
+                a.classList.remove('text-gray-600');
+              }
+            });
+          }
         }
         window.addEventListener('hashchange', updateMenuActive);
         document.addEventListener('DOMContentLoaded', updateMenuActive);
