@@ -10,6 +10,7 @@ COPY alembic/ ./alembic/
 COPY alembic.ini .
 COPY scripts/ ./scripts/
 COPY historical_figures_modern_era.csv .
+COPY historical_figures_feudal_era.csv .
 
 ENV PYTHONPATH=/app/src
 
