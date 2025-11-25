@@ -7,7 +7,7 @@ Usage:
 This script expects the CSV to have a header with column names that match the
 Figure model fields (or a subset). Example header columns supported:
   name,birth_year,death_year,introduction,biography,contributions,image_intro,
-  image_activity,image_ext_1,image_ext_2,video_1,video_2
+  image_activity,image_ext_1,image_ext_2,video_1,video_2,era
 
 The script inserts rows in batches and commits them asynchronously.
 """
@@ -32,6 +32,7 @@ from sqlmodel import select
 ALLOWED_FIELDS = {
     'id', 'name', 'birth_year', 'death_year', 'introduction', 'biography', 'contributions',
     'image_intro', 'image_activity', 'image_ext_1', 'image_ext_2', 'video_1', 'video_2',
+    'era',
 }
 
 BATCH_SIZE = 100
