@@ -31,7 +31,7 @@ async def get_figures(session: AsyncSession = Depends(get_async_session)):
             Figure.death_year,
             Figure.introduction,
             Figure.image_intro,
-        ).limit(10)
+        )
         result = await session.execute(statement)
         rows = result.all()
         # rows are tuples in the same order as selected columns
