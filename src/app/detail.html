@@ -286,6 +286,15 @@
                 setImageWithFallback('bioImage2', 'bioImage2Container', figure.image_ext_2, initials);
                 setImageWithFallback('contribImage', 'contribImageContainer', figure.image_activity, initials);
 
+                // Handle contribution section layout and visibility
+                const contribSection = document.getElementById('contribSection');
+                const hasContribText = (figure.contributions && figure.contributions.trim().length > 0);
+                if (!hasContribText) {
+                    if (contribSection) contribSection.classList.add('hidden');
+                } else {
+                    if (contribSection) contribSection.classList.remove('hidden');
+                }
+
                 // Handle contribution section layout when image is missing
                 if (!figure.image_activity) {
                     const contribImageWrapper = document.getElementById('contribImageWrapper');
