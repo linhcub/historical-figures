@@ -72,6 +72,102 @@
             color: #D4AF37;
             background: #fdf6e3;
         }
+
+        /* Submenu styles */
+        .group {
+            position: relative;
+        }
+        .group .main-nav-link {
+            z-index: 20;
+            position: relative;
+        }
+        .group:hover #submenu-lop12, .group:focus-within #submenu-lop12 {
+            display: block;
+        }
+        #submenu-lop12 {
+            display: none;
+            min-width: 340px;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(212,175,55,0.18), 0 1.5px 6px 0 rgba(139,30,30,0.08);
+            border-radius: 1rem;
+            border: 1.5px solid #F4E085;
+            background: linear-gradient(135deg, #fffbe8 80%, #fdf6e3 100%);
+            padding: 0.5rem 0;
+            top: 100%;
+            left: 0;
+            margin-top: 0.25rem;
+            pointer-events: auto;
+        }
+        /* Add a large invisible hover area between nav and submenu for easier mouse movement */
+        .group::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+            height: 36px;
+            z-index: 10;
+        }
+        .group:hover::after, .group:focus-within::after {
+            pointer-events: auto;
+        }
+        /* Ensure submenu stays open when hovering the gap */
+        .group:hover #submenu-lop12, .group:focus-within #submenu-lop12, .group:hover::after, .group:focus-within::after {
+            display: block;
+        }
+        #submenu-lop12 a {
+            font-family: 'Merriweather', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #8B1E1E;
+            border-radius: 0.75rem;
+            margin: 0.15rem 0.5rem;
+            transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+            position: relative;
+            padding-left: 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        #submenu-lop12 a .chu-de-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.98rem;
+            color: #D4AF37;
+            font-weight: 700;
+            margin-right: 0.5rem;
+            letter-spacing: 0.01em;
+        }
+        #submenu-lop12 a .chu-de-name {
+            font-family: 'Merriweather', serif;
+            font-size: 1.05rem;
+            color: #8B1E1E;
+            font-weight: 600;
+        }
+        #submenu-lop12 a:hover, #submenu-lop12 a:focus {
+            background: #F4E085;
+            color: #D4AF37;
+            box-shadow: 0 2px 8px 0 rgba(212,175,55,0.10);
+        }
+        #submenu-lop12 a:hover .chu-de-label, #submenu-lop12 a:focus .chu-de-label {
+            color: #8B1E1E;
+        }
+        #submenu-lop12 a:hover .chu-de-name, #submenu-lop12 a:focus .chu-de-name {
+            color: #D4AF37;
+        }
+        #submenu-lop12 a::before {
+            content: '\f02e'; /* fa-book-open */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #D4AF37;
+            font-size: 1.1em;
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
@@ -85,10 +181,23 @@
                     </div>
                     <span class="font-serif font-bold text-xl text-history-red tracking-wide">Học Liệu Lịch Sử Địa Phương</span>
                 </a>
-                <div class="hidden md:flex space-x-2">
+                <div class="hidden md:flex space-x-2 items-center relative">
                     <a href="underdev.html?lop=10" class="main-nav-link" id="nav-lop10">Lớp 10</a>
                     <a href="underdev.html?lop=11" class="main-nav-link" id="nav-lop11">Lớp 11</a>
-                    <a href="index.html" class="main-nav-link" id="nav-lop12">Lớp 12</a>
+                    <div class="relative group">
+                        <a href="index.html" class="main-nav-link flex items-center" id="nav-lop12">
+                            Lớp 12
+                            <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                        </a>
+                        <div class="absolute left-0 top-full mt-2 w-[340px] bg-white border border-history-gold/30 rounded-xl shadow-lg py-2 z-50 hidden group-hover:block group-focus-within:block transition-all" id="submenu-lop12">
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 1:</span> <span class="chu-de-name">Địa lí địa phương</span></a>
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 2:</span> <span class="chu-de-name">Lịch sử truyền thống</span></a>
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 3:</span> <span class="chu-de-name">Văn hoá</span></a>
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 4:</span> <span class="chu-de-name">Hướng nghiệp</span></a>
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 5:</span> <span class="chu-de-name">Môi trường</span></a>
+                            <a href="#" class="block px-5 py-2 text-gray-800 hover:bg-history-gold/10 transition"><span class="chu-de-label">Chủ đề 6:</span> <span class="chu-de-name">Chính trị xã hội</span></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="index.html#gallery" class="text-history-red font-bold transition border-b-2 border-history-red main-nav-link bg-transparent border-0 hover:bg-history-gold/20">
