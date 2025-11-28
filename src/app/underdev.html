@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang đang phát triển - Học Liệu Lịch Sử Địa Phương</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'history-red': '#8B1E1E',
+                        'history-gold': '#D4AF37',
+                        'history-gold-light': '#F4E085',
+                        'paper': '#FDFBF7',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #FDFBF7; }
+        .main-nav-link { position: relative; padding: 0.5rem 1.25rem; border-radius: 9999px; font-weight: 600; transition: color 0.2s, background 0.2s; }
+        .main-nav-link.active, .main-nav-link:focus { color: #8B1E1E; background: #F4E085; box-shadow: 0 2px 8px 0 rgba(212,175,55,0.08); }
+        .main-nav-link:hover { color: #D4AF37; background: #fdf6e3; }
+    </style>
+</head>
+<body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
+    <!-- NAVIGATION START -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-history-gold/30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center cursor-pointer" onclick="window.location.href='index.html'">
+                    <div class="w-10 h-10 bg-history-red rounded-full flex items-center justify-center text-history-gold mr-3 shadow-md">
+                        <i class="fa-solid fa-dragon text-xl"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl text-history-red tracking-wide">Học Liệu Lịch Sử Địa Phương</span>
+                </div>
+                <div class="hidden md:flex space-x-2">
+                    <a href="underdev.html?lop=10" class="main-nav-link" id="nav-lop10">Lớp 10</a>
+                    <a href="underdev.html?lop=11" class="main-nav-link" id="nav-lop11">Lớp 11</a>
+                    <a href="index.html" class="main-nav-link" id="nav-lop12">Lớp 12</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="md:hidden text-gray-600 text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- NAVIGATION END -->
+    <main class="flex flex-col items-center justify-center min-h-screen bg-paper pt-24">
+        <div class="text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-history-gold/20 rounded-full mb-6">
+                <i class="fa-solid fa-hammer text-4xl text-history-gold"></i>
+            </div>
+            <h1 class="text-4xl font-serif font-bold text-history-red mb-4">Trang đang phát triển</h1>
+            <p class="text-lg text-gray-600 mb-6">Chức năng này sẽ sớm ra mắt. Vui lòng quay lại sau!</p>
+        </div>
+    </main>
+    <!-- FOOTER START -->
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-history-gold mt-24">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 bg-history-gold rounded-full flex items-center justify-center text-gray-900 mr-2">
+                        <i class="fa-solid fa-dragon"></i>
+                    </div>
+                    <span class="font-serif font-bold text-xl">Học Liệu Lịch Sử Địa Phương</span>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Trang web phục vụ mục đích giáo dục, giúp học sinh tiếp cận lịch sử một cách trực quan và sinh động nhất. Tự hào lịch sử Việt Nam.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên kết nhanh</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Trang chủ</a></li>
+                    <li><a href="index.html#gallery" class="hover:text-white transition">Nhân vật</a></li>
+                    <li><a href="index.html#quiz" class="hover:text-white transition">Đố vui</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4 text-history-gold">Liên hệ</h4>
+                <p class="text-gray-400 text-sm mb-2"><i class="fa-solid fa-envelope mr-2"></i> contact@haokhiviethistory.vn</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center border-t border-gray-800 mt-8 pt-8 text-gray-500 text-sm">
+            &copy; 2025 Học Liệu Lịch Sử Địa Phương
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+    <script>
+        // Highlight the correct nav item based on query param
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const lop = params.get('lop');
+            if (lop === '10') {
+                document.getElementById('nav-lop10').classList.add('active');
+            } else if (lop === '11') {
+                document.getElementById('nav-lop11').classList.add('active');
+            }
+        })();
+    </script>
+</body>
+</html>

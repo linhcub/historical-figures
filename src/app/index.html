@@ -77,6 +77,24 @@
         .animate-spin-custom {
             animation: spin 1s linear infinite;
         }
+
+        /* Navigation link styles */
+        .main-nav-link {
+            position: relative;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: color 0.2s, background 0.2s;
+        }
+        .main-nav-link.active, .main-nav-link:focus {
+            color: #8B1E1E;
+            background: #F4E085;
+            box-shadow: 0 2px 8px 0 rgba(212,175,55,0.08);
+        }
+        .main-nav-link:hover {
+            color: #D4AF37;
+            background: #fdf6e3;
+        }
     </style>
 </head>
 <body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
@@ -90,14 +108,11 @@
                     </div>
                     <span class="font-serif font-bold text-xl text-history-red tracking-wide">Học Liệu Lịch Sử Địa Phương</span>
                 </div>
-
-                <div class="hidden md:flex space-x-8">
-                    <a href="#overview" class="text-gray-600 hover:text-history-red transition font-medium">Chương I: Khái Quát</a>
-                    <a href="#gallery" data-chapter="2" onclick="setFilterAndScroll('Phong kiến');" class="text-gray-600 hover:text-history-red transition font-medium">Chương II: Phong Kiến</a>
-                    <a href="#gallery" data-chapter="3" onclick="setFilterAndScroll('Hiện Đại');" class="text-gray-600 hover:text-history-red transition font-medium">Chương III: Hiện Đại</a>
-                    <a href="#quiz" class="text-gray-600 hover:text-history-red transition font-medium">Chương IV: Luyện Tập Thêm</a>
+                <div class="hidden md:flex space-x-2">
+                    <a href="underdev.html?lop=10" class="main-nav-link" id="nav-lop10">Lớp 10</a>
+                    <a href="underdev.html?lop=11" class="main-nav-link" id="nav-lop11">Lớp 11</a>
+                    <a href="index.html" class="main-nav-link" id="nav-lop12">Lớp 12</a>
                 </div>
-
                 <div class="flex items-center space-x-4">
                     <button class="md:hidden text-gray-600 text-2xl">
                         <i class="fa-solid fa-bars"></i>
@@ -355,6 +370,19 @@
     </footer>
 
     <script>
+        // Highlight the correct nav item based on query param or page
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const lop = params.get('lop');
+            if (lop === '10') {
+                document.getElementById('nav-lop10').classList.add('active');
+            } else if (lop === '11') {
+                document.getElementById('nav-lop11').classList.add('active');
+            } else {
+                document.getElementById('nav-lop12').classList.add('active');
+            }
+        })();
+
         // --- Lấy dữ liệu từ FastAPI Backend ---
         // Tự động phát hiện môi trường:
         // - Production: Dùng /api (cùng domain với frontend qua Nginx reverse proxy)

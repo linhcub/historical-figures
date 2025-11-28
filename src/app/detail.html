@@ -55,6 +55,23 @@
         .section-separator {
             border-top: 1px solid #e5e7eb;
         }
+
+        .main-nav-link {
+            position: relative;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: color 0.2s, background 0.2s;
+        }
+        .main-nav-link.active, .main-nav-link:focus {
+            color: #8B1E1E;
+            background: #F4E085;
+            box-shadow: 0 2px 8px 0 rgba(212,175,55,0.08);
+        }
+        .main-nav-link:hover {
+            color: #D4AF37;
+            background: #fdf6e3;
+        }
     </style>
 </head>
 <body class="bg-paper text-gray-800 font-sans antialiased selection:bg-history-gold selection:text-white">
@@ -68,11 +85,20 @@
                     </div>
                     <span class="font-serif font-bold text-xl text-history-red tracking-wide">Học Liệu Lịch Sử Địa Phương</span>
                 </a>
-
+                <div class="hidden md:flex space-x-2">
+                    <a href="underdev.html?lop=10" class="main-nav-link" id="nav-lop10">Lớp 10</a>
+                    <a href="underdev.html?lop=11" class="main-nav-link" id="nav-lop11">Lớp 11</a>
+                    <a href="index.html" class="main-nav-link" id="nav-lop12">Lớp 12</a>
+                </div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="index.html#gallery" class="text-history-red font-bold transition border-b-2 border-history-red">
+                    <a href="index.html#gallery" class="text-history-red font-bold transition border-b-2 border-history-red main-nav-link bg-transparent border-0 hover:bg-history-gold/20">
                         <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại Danh sách
                     </a>
+                </div>
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button class="text-gray-600 text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -361,6 +387,14 @@
                 document.getElementById('errorMessage').innerText = 'Đã xảy ra lỗi khi tải dữ liệu: ' + error.message;
             }
         }
+
+        // --- Lớp 10, 11, 12 navigation active state logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav10 = document.getElementById('nav-lop10');
+            const nav11 = document.getElementById('nav-lop11');
+            const nav12 = document.getElementById('nav-lop12');
+            nav12 && nav12.classList.add('active');
+        });
     </script>
 </body>
 </html>
